@@ -31,7 +31,7 @@ public class AdminHandler {
 
             ModelMap modelMap
     ) {
-        // 调用Service方法获取PageInfo对象
+        // 调用Service方法获取PageInfo 对象
         PageInfo<Admin> pageInfo = adminService.getPageInfo(keyword, pageNum, pageSize);
 
         // 将PageInfo对象存入模型
