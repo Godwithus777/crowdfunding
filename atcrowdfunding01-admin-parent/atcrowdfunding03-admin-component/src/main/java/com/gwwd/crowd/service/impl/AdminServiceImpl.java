@@ -101,4 +101,10 @@ public class AdminServiceImpl implements AdminService {
         // new PageInfo<>(list,5);
     }
 
+    @Override
+    public void remove(Integer adminId) {
+        adminMapper.deleteByPrimaryKey(adminId);
+
+    }
+
 }

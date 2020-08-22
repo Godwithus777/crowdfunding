@@ -5,9 +5,11 @@ import com.github.pagehelper.PageInfo;
 import com.gwwd.crowd.constant.CrowdConstant;
 import com.gwwd.crowd.service.api.AdminService;
 import com.gwwd.entity.Admin;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,18 +21,45 @@ public class AdminHandler {
     @Autowired
     private AdminService adminService;
 
+    // 删除
+    @RequestMapping("admin/remove/{adminId}/{pageNum}/{keyword}.html")
+    public String remove(
+            @PathVariable("adminId") Integer adminId,
+            @PathVariable("pageNum") Integer pageNum,
+            @PathVariable("keyword") String keyword
+    ) {
+//        System.out.println("adminId=" + adminId);
+//        System.out.println("pageNum=" + pageNum);
+//        System.out.println("keyword=" + keyword);
+        // 执行删除
+        adminService.remove(adminId);
+
+        // 页面跳转：回到分页页面
+
+        // 尝试方案1：直接转发到admin-page.jsp会无法显示分页数据
+        // return "admin-page";
+
+        // 尝试方案2：转发到/admin/get/page.html地址，一旦刷新页面会重复执行删除浪费性能
+        // return "forward:/admin/get/page.html";
+
+        // 尝试方案3：重定向到/admin/get/page.html地址
+        // 同时为了保持原本所在的页面和查询关键词再附加pageNum和keyword两个请求参数
+        return "redirect:/admin/get/page.html?pageNum=" + pageNum + "&keyword=" + keyword;
+
+    }
+
     @RequestMapping("/admin/get/page.html")
     public String getPageInfo(
 
             // 使用@RequestParam注解的defaultValue属性，指定默认值，在请求中没有携带对应参数时使用默认值
             // keyword默认值使用空字符串，和SQL语句配合实现两种情况适配
-            @RequestParam(value="keyword", defaultValue="") String keyword,
+            @RequestParam(value = "keyword", defaultValue = "") String keyword,
 
             // pageNum默认值使用1
-            @RequestParam(value="pageNum", defaultValue="1") Integer pageNum,
+            @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
 
             // pageSize默认值使用5
-            @RequestParam(value="pageSize", defaultValue="5") Integer pageSize,
+            @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
 
             ModelMap modelMap
 
