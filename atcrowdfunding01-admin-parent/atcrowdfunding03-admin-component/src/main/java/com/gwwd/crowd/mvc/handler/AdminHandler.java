@@ -48,6 +48,15 @@ public class AdminHandler {
 
     }
 
+    // 新增
+    @RequestMapping("admin/save.html")
+    public String save(Admin admin) {
+        System.out.println("admin=" + admin);
+        adminService.saveAdmin(admin);
+
+        return "redirect:/admin/get/page.html?pageNum=" + Integer.MAX_VALUE;
+    }
+
     @RequestMapping("/admin/get/page.html")
     public String getPageInfo(
 

@@ -47,6 +47,8 @@
 
     <mvc:view-controller path="/admin/to/login/page.html" view-name="admin-login"/>
     <mvc:view-controller path="/admin/to/main/page.html" view-name="admin-main"/>
+    <!--新增-->
+    <mvc:view-controller path="admin/to/add/page.html" view-name="admin-add"/>
 
     <!-- 注册拦截器 -->
     <mvc:interceptors>

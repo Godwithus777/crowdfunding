@@ -3,6 +3,7 @@ package com.gwwd.crowd.mvc.config;
 
 import com.google.gson.Gson;
 import com.gwwd.crowd.Exception.AccessForbiddenException;
+import com.gwwd.crowd.Exception.LoginAcctAlreadyInUseException;
 import com.gwwd.crowd.Exception.LoginFailedException;
 import com.gwwd.crowd.util.CrowdUtil;
 import com.gwwd.crowd.util.ResultEntity;
@@ -20,6 +21,18 @@ import java.io.IOException;
 @ControllerAdvice
 public class CrowdExceptionResolver {
 
+    @ExceptionHandler(value = LoginAcctAlreadyInUseException.class)
+    public ModelAndView resolveLoginAcctAlreadyInUseException(
+            LoginAcctAlreadyInUseException exception,
+            HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
+
+        String viewName = "admin-add";
+
+        return commonResolve(viewName, exception, request, response);
+
+    }
+
 
     //@ExceptionHandler 将一个具体的异常类型和一个方法关联起来
     @ExceptionHandler(value = LoginFailedException.class)
@@ -34,6 +47,7 @@ public class CrowdExceptionResolver {
         return commonResolve(viewName, exception, request, response);
     }
 
+    //@ExceptionHandler 将一个具体的异常类型和一个方法关联起来
     @ExceptionHandler(value = AccessForbiddenException.class)
     public ModelAndView resolveAccessForbiddenException(
             AccessForbiddenException exception,
