@@ -32,10 +32,15 @@
                                 <input class="form-control has-success" type="text" placeholder="请输入查询条件">
                             </div>
                         </div>
-                        <button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
+                        <button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询
+                        </button>
                     </form>
-                    <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
-                    <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='add.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
+                    <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i
+                            class=" glyphicon glyphicon-remove"></i> 删除
+                    </button>
+                    <button type="button" class="btn btn-primary" style="float:right;"
+                            onclick="window.location.href='add.html'"><i class="glyphicon glyphicon-plus"></i> 新增
+                    </button>
                     <br>
                     <hr style="clear:both;">
                     <div class="table-responsive">
@@ -52,20 +57,30 @@
                             </thead>
                             <tbody>
                             <c:if test="${empty requestScope.pageInfo.list}">
-
+                                <tr>
+                                    <td colspan="6" align="center">抱歉! 没有查询到您要的数据!</td>
+                                </tr>
                             </c:if>
-                            <tr>
-                                <td>1</td>
-                                <td><input type="checkbox"></td>
-                                <td>Lorem</td>
-                                <td>ipsum</td>
-                                <td>dolor</td>
-                                <td>
-                                    <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
-                                    <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
-                                    <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
-                                </td>
-                            </tr>
+
+                            <c:if test="${!empty requestScope.pageInfo.list}">
+                                <c:forEach items="${requestScope.pageInfo.list}" var="admin" varStatus="myStatus">
+                                    <tr>
+                                        <td>${myStatus.count}}</td>
+                                        <td><input type="checkbox"></td>
+                                        <td>${admin.loginAcct}</td>
+                                        <td>${admin.userName}</td>
+                                        <td>${admin.email}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-success btn-xs"><i
+                                                    class=" glyphicon glyphicon-check"></i></button>
+                                            <button type="button" class="btn btn-primary btn-xs"><i
+                                                    class=" glyphicon glyphicon-pencil"></i></button>
+                                            <button type="button" class="btn btn-danger btn-xs"><i
+                                                    class=" glyphicon glyphicon-remove"></i></button>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </c:if>
 
                             </tbody>
                             <tfoot>

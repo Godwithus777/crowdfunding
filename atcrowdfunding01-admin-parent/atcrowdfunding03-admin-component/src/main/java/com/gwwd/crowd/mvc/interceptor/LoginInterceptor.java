@@ -24,7 +24,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         // 3.判断 admin 对象是否为空
         if (admin == null) {
             // 4.抛出异常
-            throw new AccessForbiddenException("请登录以后在访问");
+            throw new AccessForbiddenException("请登录以后在访问!!!");
         } else {
             // 5.如果 Admin 对象不为 null，则返回 true 放行
             return true;

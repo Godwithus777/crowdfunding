@@ -43,7 +43,7 @@
             return "admin-login";
         }`
      -->
-    <!--    <mvc:default-servlet-handler />-->
+<!--        <mvc:default-servlet-handler />-->
 
     <mvc:view-controller path="/admin/to/login/page.html" view-name="admin-login"/>
     <mvc:view-controller path="/admin/to/main/page.html" view-name="admin-main"/>

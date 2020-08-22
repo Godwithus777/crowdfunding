@@ -149,6 +149,12 @@
     </script>
 </head>
 <body>
+
+<a href="/admin/to/login/page.html">跳转登录页面</a>
+
+<br>
+<br>
+
 <a href="test/ssm.html">跳转</a>
 <br>
 <br>

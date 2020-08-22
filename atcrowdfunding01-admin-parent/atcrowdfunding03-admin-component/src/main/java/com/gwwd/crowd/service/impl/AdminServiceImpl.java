@@ -88,12 +88,17 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public PageInfo<Admin> getPageInfo(String keyword, Integer pageNum, Integer pageSize) {
 
-        PageHelper.startPage(pageNum,pageSize);
+        // 1.调用PageHelper的静态方法开启分页功能
+        // 这里充分体现了PageHelper的“非侵入式”设计：原本要做的查询不必有任何修改
+        PageHelper.startPage(pageNum, pageSize);
 
+        // 2.执行查询
         List<Admin> list = adminMapper.selectAdminByKeyword(keyword);
 
         // 3.封装到PageInfo对象中
         return new PageInfo<>(list);
+        // 传入连续要显示的页码
+//        new PageInfo<>(list,5);
     }
 
 }

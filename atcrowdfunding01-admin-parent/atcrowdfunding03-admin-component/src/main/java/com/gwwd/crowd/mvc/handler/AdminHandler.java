@@ -19,19 +19,24 @@ public class AdminHandler {
     @Autowired
     private AdminService adminService;
 
-    // 分页
     @RequestMapping("/admin/get/page.html")
     public String getPageInfo(
 
-            @RequestParam(value = "keyword", defaultValue = "") String keyword,
+            // 使用@RequestParam注解的defaultValue属性，指定默认值，在请求中没有携带对应参数时使用默认值
+            // keyword默认值使用空字符串，和SQL语句配合实现两种情况适配
+            @RequestParam(value="keyword", defaultValue="") String keyword,
 
-            @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+            // pageNum默认值使用1
+            @RequestParam(value="pageNum", defaultValue="1") Integer pageNum,
 
-            @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+            // pageSize默认值使用5
+            @RequestParam(value="pageSize", defaultValue="5") Integer pageSize,
 
             ModelMap modelMap
+
     ) {
-        // 调用Service方法获取PageInfo 对象
+
+        // 调用Service方法获取PageInfo对象
         PageInfo<Admin> pageInfo = adminService.getPageInfo(keyword, pageNum, pageSize);
 
         // 将PageInfo对象存入模型
@@ -39,6 +44,8 @@ public class AdminHandler {
 
         return "admin-page";
     }
+
+
 
 
     @RequestMapping("admin/do/logout.html")

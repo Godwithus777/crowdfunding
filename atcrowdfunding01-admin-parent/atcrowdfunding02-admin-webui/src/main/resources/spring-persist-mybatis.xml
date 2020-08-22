@@ -18,7 +18,7 @@
     </bean>
 
     <!--配置SQLSessionFactoryBean整合MyBatis-->
-    <bean id="sqlSessionFactoryBean"   class="org.mybatis.spring.SqlSessionFactoryBean">
+    <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!--指定MyBatis全局配置文件位置-->
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
 
@@ -27,15 +27,35 @@
 
         <!--装配数据源-->
         <property name="dataSource" ref="dataSource"/>
+        <!--配置插件-->
+        <property name="plugins">
 
+            <array>
+                <!--配置PageHelper插件-->
+                <bean class="com.github.pagehelper.PageHelper">
+                    <property name="properties">
+                        <props>
+                            <!--配置数据库方言,告诉PageHelper当前使用的数据库-->
+                            <prop key="dialect">mysql</prop>
+
+                            <!--配置页码的合理化修正,在1~总页数之间修正代码-->
+                            <prop key="reasonable">true</prop>
+                        </props>
+                    </property>
+                </bean>
+            </array>
+        </property>
     </bean>
     <!--配置Mappe rScannerConfigurer来扫描Mapper接口所在的包-->
     <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!--指定dao接口所在的包-->
-        <property name="basePackage"  value="com.gwwd.crowd.mapper"/>
+        <property name="basePackage" value="com.gwwd.crowd.mapper"/>
     </bean>
     <!--或者用这个扫描Mapper接口所在的包-->
-<!--    <mybatis-spring:scan base-package="com.gwwd.crowd.mapper"/>-->
-
+    <!--    <mybatis-spring:scan base-package="com.gwwd.crowd.mapper"/>-->
 
 </beans>
+
+
+
+
