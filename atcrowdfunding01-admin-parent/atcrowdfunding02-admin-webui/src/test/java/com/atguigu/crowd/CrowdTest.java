@@ -17,7 +17,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring-persist-mybatis.xml","classpath:spring-persist-tx.xml"})
+@ContextConfiguration(locations = {"classpath:spring-persist-mybatis.xml", "classpath:spring-persist-tx.xml"})
 public class CrowdTest {
 
     @Autowired
@@ -35,8 +35,6 @@ public class CrowdTest {
         adminService.saveAdmin(admin);
 
     }
-
-
 
 
     @Test
@@ -72,7 +70,7 @@ public class CrowdTest {
         // sysout本质上是一个IO操作，通常IO的操作是比较消耗性能的。如果项目中sysout很多，那么对性能的影响就比较大了。
         // 即使上线前专门花时间删除代码中的sysout，也很可能有遗漏，而且非常麻烦。
         // 而如果使用日志系统，那么通过日志级别就可以批量的控制信息的打印。
-        System.out.println("受影响的行数="+count);
+        System.out.println("受影响的行数=" + count);
     }
 
 
@@ -83,7 +81,10 @@ public class CrowdTest {
     }
 
     @Test
-    public void test02(){
+    public void test() {
+        for (int i = 0; i < 238; i++) {
+            adminMapper.insert(new Admin(null, "loginAcct" + i, "userPswd" + i, "userName" + i, "email" + i, null));
+        }
 
     }
 

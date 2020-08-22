@@ -98,7 +98,7 @@ public class AdminServiceImpl implements AdminService {
         // 3.封装到PageInfo对象中
         return new PageInfo<>(list);
         // 传入连续要显示的页码
-//        new PageInfo<>(list,5);
+        // new PageInfo<>(list,5);
     }
 
 }

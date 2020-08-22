@@ -46,8 +46,6 @@ public class AdminHandler {
     }
 
 
-
-
     @RequestMapping("admin/do/logout.html")
     public String doLogout(HttpSession session) {
 
