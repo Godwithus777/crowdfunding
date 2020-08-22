@@ -11,7 +11,51 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <%@include file="/WEB-INF/include-head.jsp" %>
+<link rel="stylesheet" href="css/pagination.css"/>
+<script type="text/javascript" src="jquery/jquery.pagination.js"></script>
+<script type="text/javascript">
+    $(function () {
 
+        // 调用后面声明的函数对页码导航条进行初始化操作
+        initPagination();
+
+    });
+
+    // 生成页码导航条的函数
+    function initPagination() {
+
+        // 获取总记录数
+        var totalRecord = ${requestScope.pageInfo.total};
+
+        // 声明一个JSON对象存储Pagination要设置的属性
+        var properties = {
+            num_edge_entries: 3,
+            num_diplay_entries: 5,
+            callback: pageSelectCallback,
+            items_per_page:${requestScope.pageInfo.pageSize},
+            current_page:${requestScope.pageInfo.pageNum -1},
+            prev_text: "上一页",
+            next_text: "下一页"
+
+        };
+
+        // 生成页码导航条
+        $("#Pagination").pagination(totalRecord, properties);
+    }
+
+    function pageSelectCallback(pageIndex, jQuery) {
+
+        var pageNum = pageIndex + 1;
+
+
+        // 跳转页面
+        window.location.href = "admin/get/page.html?pageNum=" + pageNum;
+
+        return false;
+
+    }
+
+</script>
 <body>
 
 <%@include file="/WEB-INF/include-nav.jsp" %>
@@ -86,15 +130,7 @@
                             <tfoot>
                             <tr>
                                 <td colspan="6" align="center">
-                                    <ul class="pagination">
-                                        <li class="disabled"><a href="#">上一页</a></li>
-                                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">4</a></li>
-                                        <li><a href="#">5</a></li>
-                                        <li><a href="#">下一页</a></li>
-                                    </ul>
+                                    <div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>
                                 </td>
                             </tr>
 
