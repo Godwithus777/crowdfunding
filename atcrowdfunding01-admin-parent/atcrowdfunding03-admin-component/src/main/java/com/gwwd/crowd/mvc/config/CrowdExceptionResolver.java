@@ -4,6 +4,7 @@ package com.gwwd.crowd.mvc.config;
 import com.google.gson.Gson;
 import com.gwwd.crowd.Exception.AccessForbiddenException;
 import com.gwwd.crowd.Exception.LoginAcctAlreadyInUseException;
+import com.gwwd.crowd.Exception.LoginAcctAlreadyInUseForUpdateException;
 import com.gwwd.crowd.Exception.LoginFailedException;
 import com.gwwd.crowd.util.CrowdUtil;
 import com.gwwd.crowd.util.ResultEntity;
@@ -20,6 +21,20 @@ import java.io.IOException;
 //@ControllerAdvice表示当前类是一个基于注解的异常处理类
 @ControllerAdvice
 public class CrowdExceptionResolver {
+
+    @ExceptionHandler(value = LoginAcctAlreadyInUseForUpdateException.class)
+    public ModelAndView resolveLoginAcctAlreadyInUseForUpdateException(
+            LoginAcctAlreadyInUseForUpdateException exception,
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws IOException {
+
+        String viewName = "system-error";
+
+        return commonResolve(viewName,exception,request,response);
+    }
+
+
 
     @ExceptionHandler(value = LoginAcctAlreadyInUseException.class)
     public ModelAndView resolveLoginAcctAlreadyInUseException(

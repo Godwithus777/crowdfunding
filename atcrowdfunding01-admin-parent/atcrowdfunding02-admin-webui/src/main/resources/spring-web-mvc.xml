@@ -27,9 +27,9 @@
             <props>
                 <!--key属性指定异常全类名-->
                 <!--标签体中写对应的视图(这个值拼接前后缀得到具体的路径-->
-                <prop key="java.lang.Exception">system-error</prop>
-                
-                <prop key="com.gwwd.crowd.Exception.AccessForbiddenException">admin-login</prop>
+
+<!--                <prop key="java.lang.Exception">system-error</prop>-->
+<!--                <prop key="com.gwwd.crowd.Exception.AccessForbiddenException">admin-login</prop>-->
             </props>
         </property>
 

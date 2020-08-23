@@ -48,6 +48,34 @@ public class AdminHandler {
 
     }
 
+    @RequestMapping("admin/update.html")
+    public String update(Admin admin,
+                         @RequestParam("pageNum") Integer pageNum,
+                         @RequestParam("keyword") String keyword
+                        ){
+
+        adminService.update(admin);
+
+        return "redirect:/admin/get/page.html?pageNum=" + pageNum + "&keyword=" + keyword;
+    }
+
+
+    // 编辑
+    @RequestMapping("admin/to/edit/page.html")
+    public String toEditPage(
+            @RequestParam("adminId") Integer adminId,
+            ModelMap modelMap
+    ) {
+
+        // 1.根据 id（主键）查询待更新的 Admin 对象
+        Admin admin = adminService.getAdminById(adminId);
+
+        // 2.将Admin对象存入模型
+        modelMap.addAttribute("admin",admin);
+
+        return "admin-edit";
+    }
+
     // 新增
     @RequestMapping("admin/save.html")
     public String save(Admin admin) {
