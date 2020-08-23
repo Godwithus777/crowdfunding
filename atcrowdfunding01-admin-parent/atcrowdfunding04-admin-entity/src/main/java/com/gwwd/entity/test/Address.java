@@ -1,4 +1,4 @@
-package com.gwwd.entity;
+package com.gwwd.entity.test;
 
 public class Address {
     private String province;

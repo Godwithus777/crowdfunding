@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE generatorConfiguration
         PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
-        http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
     <!-- mybatis-generator:generate -->
     <context id="atguiguTables" targetRuntime="MyBatis3">
@@ -49,7 +49,7 @@
         </javaClientGenerator>
 
         <!-- 数据库表名字和我们的entity类对应的映射指定 -->
-        <table tableName="t_admin" domainObjectName="Admin" />
+        <table tableName="t_role" domainObjectName="Role" />
 
     </context>
 </generatorConfiguration>

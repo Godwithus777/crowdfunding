@@ -1,4 +1,4 @@
-package com.gwwd.entity;
+package com.gwwd.entity.test;
 
 import java.util.List;
 import java.util.Map;

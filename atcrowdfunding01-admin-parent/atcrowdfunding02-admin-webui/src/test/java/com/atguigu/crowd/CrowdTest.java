@@ -2,8 +2,10 @@ package com.atguigu.crowd;
 
 
 import com.gwwd.crowd.mapper.AdminMapper;
+import com.gwwd.crowd.mapper.RoleMapper;
 import com.gwwd.crowd.service.api.AdminService;
 import com.gwwd.entity.Admin;
+import com.gwwd.entity.Role;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -29,6 +31,15 @@ public class CrowdTest {
     @Autowired
     private AdminService adminService;
 
+    @Autowired
+    private RoleMapper roleMapper;
+
+    @Test
+    public void testRoleSave(){
+        for (int i = 0; i < 235; i++) {
+            roleMapper.insert(new Role(null,"role" + i));
+        }
+    }
     @Test
     public void testTx() {
         Admin admin = new Admin(null, "jerry", "123456", "杰瑞", "jerry@qq.com", null);
@@ -87,5 +98,6 @@ public class CrowdTest {
         }
 
     }
+
 
 }
