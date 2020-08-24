@@ -17,7 +17,7 @@ public class RoleHandler {
     @Autowired
     private RoleService roleService;
 
-
+    // 角色分页操作
     @ResponseBody
     @RequestMapping("role/get/page/info.json")
     public ResultEntity<PageInfo<Role>> getPageInfo(
@@ -32,5 +32,18 @@ public class RoleHandler {
         // 封装到ResultEntity对象中返回（如果上面的操作抛出异常，交给异常映射机制处理）
         return ResultEntity.successWithData(pageInfo);
     }
+
+    // 角色保存 新增
+    @ResponseBody
+    @RequestMapping("role/save.json")
+    public ResultEntity<String> saveRole(Role role) {
+
+        System.out.println("Role=" + role);
+        roleService.saveRole(role);
+
+        return ResultEntity.successWithoutData();
+    }
+
+
 }
 
