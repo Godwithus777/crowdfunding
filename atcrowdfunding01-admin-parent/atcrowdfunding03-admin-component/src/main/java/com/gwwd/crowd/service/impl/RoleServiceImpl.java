@@ -35,4 +35,10 @@ public class RoleServiceImpl implements RoleService {
     public void saveRole(Role role) {
         roleMapper.insert(role);
     }
+
+    @Override
+    public void updateRole(Role role) {
+
+        roleMapper.updateByPrimaryKey(role);
+    }
 }

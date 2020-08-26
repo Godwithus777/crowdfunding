@@ -90,7 +90,75 @@
             // 清理模态框
             $("#addModal [name=roleName]").val("");
 
-        })
+        });
+
+        // 6.给页面上的“铅笔”按钮绑定单击响应函数，目的是打开模态框
+        // 传统的事件绑定方式只能在第一个页面有效，翻页后失效了
+        // $(".pencilBtn").click(function(){
+        // 	alert("aaaa...");
+        // });
+
+        // 使用jQuery对象的on()函数可以解决上面问题
+        // ①首先找到所有“动态生成”的元素所附着的“静态”元素
+        // ②on()函数的第一个参数是事件类型
+        // ③on()函数的第二个参数是找到真正要绑定事件的元素的选择器
+        // ③on()函数的第三个参数是事件的响应函数
+        $("#rolePageBody").on("click",".pencilBtn",function(){
+            // 打开模态框
+            $("#editModal").modal("show");
+
+            // 获取表格中当前行中的角色名称
+            var roleName = $(this).parent().prev().text();
+
+            // 获取当前角色的id
+            // 依据是：var pencilBtn = "<button id='"+roleId+"' ……这段代码中我们把roleId设置到id属性了
+            // 为了让执行更新的按钮能够获取到roleId的值，把它放在全局变量上
+            window.roleId = this.id;
+
+            // 使用roleName的值设置模态框中的文本框
+            $("#editModal [name=roleName]").val(roleName);
+        });
+
+        // 7.给更新模态框中的更新按钮绑定单击响应函数
+        $("#updateRoleBtn").click(function(){
+
+            // ①从文本框中获取新的角色名称
+            var roleName = $("#editModal [name=roleName]").val();
+
+            // ②发送Ajax请求执行更新
+            $.ajax({
+                "url":"role/update.json",
+                "type":"post",
+                "data":{
+                    "id":window.roleId,
+                    "name":roleName
+                },
+                "dataType":"json",
+                "success":function(response){
+
+                    var result = response.result;
+
+                    if(result == "SUCCESS") {
+                        layer.msg("操作成功！");
+
+                        // 重新加载分页数据
+                        generatePage();
+                    }
+
+                    if(result == "FAILED") {
+                        layer.msg("操作失败！"+response.message);
+                    }
+
+                },
+                "error":function(response){
+                    layer.msg(response.status+" "+response.statusText);
+                }
+            });
+
+            // ③关闭模态框
+            $("#editModal").modal("hide");
+        });
+
 
     })
 
@@ -156,7 +224,7 @@
 </div>
 </div>
 <%@include file="/WEB-INF/modal-role-add.jsp" %>
-<%@include file="/WEB-INF/modal-role-edit.jsp"%>
+<%@include file="/WEB-INF/modal-role-edit.jsp" %>
 
 </body>
 </html>
