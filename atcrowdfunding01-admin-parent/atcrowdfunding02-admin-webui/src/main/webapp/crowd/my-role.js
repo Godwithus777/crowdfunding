@@ -1,3 +1,30 @@
+// 声明专门的函数显示确认模态框
+function showConfirmModal(roleArray) {
+
+    // 打开模态框
+    $("#confirmModal").modal("show");
+
+    // 清除旧的数据
+    $("#roleNameDiv").empty();
+
+    // 在全局变量范围创建数组用来存放角色的id
+    window.roleIdArray = [];
+
+    // 遍历roleArray数组
+    for (var i = 0; i < roleArray.length; i++) {
+        var role = roleArray[i];
+        var roleName = role.roleName;
+        $("#roleNameDiv").append(roleName + "<br/>");
+
+        var roleId = role.roleId;
+
+        // 调用数组对象的push()方法存入新元素
+        window.roleIdArray.push(roleId);
+    }
+
+}
+
+
 // 执行分页,生成页面效果,任何时候调用这个函数都会重新加载页面
 function generatePage() {
 
@@ -24,7 +51,7 @@ function getPageInfoRemote() {
         "dataType": "json"
     });
 
-    console.log(ajaxResult);
+    console.log("ajaxResult=" + ajaxResult);
 
     var statusCode = ajaxResult.status;
 
@@ -75,14 +102,14 @@ function fillTableBody(pageInfo) {
         var roleName = role.name;
 
         var numberId = "<td>" + (i + 1) + "</td>";
-        var checkboxId = "<td><input type='checkbox'></td>";
+        var checkboxId = "<td><input id='" + roleId + "' type='checkbox' class='itemBox'></td>";
         var roleNameTd = "<td>" + roleName + "</td>";
 
         var checkBtn = "<button type='button' class='btn btn-success btn-xs'><i class=' glyphicon glyphicon-check'></i></button>";
 
         // 通过button标签的id属性（别的属性其实也可以）把roleId值传递到button按钮的单击响应函数中，在单击响应函数中使用this.id
-        var pencilBtn = "<button id='"+roleId+"' type='button' class='btn btn-primary btn-xs pencilBtn'><i class=' glyphicon glyphicon-pencil'></i></button>";
-        var removeBtn = "<button type='button' class='btn btn-danger btn-xs removeBtn'><i class=' glyphicon glyphicon-remove'></i></button>";
+        var pencilBtn = "<button id='" + roleId + "' type='button' class='btn btn-primary btn-xs pencilBtn'><i class=' glyphicon glyphicon-pencil'></i></button>";
+        var removeBtn = "<button id='" + roleId + "' type='button' class='btn btn-danger btn-xs removeBtn'><i class=' glyphicon glyphicon-remove'></i></button>";
         var buttonTd = "<td>" + checkBtn + " " + pencilBtn + " " + removeBtn + "</td>";
 
         var tr = "<tr>" + numberId + checkboxId + roleNameTd + buttonTd + "</tr>";

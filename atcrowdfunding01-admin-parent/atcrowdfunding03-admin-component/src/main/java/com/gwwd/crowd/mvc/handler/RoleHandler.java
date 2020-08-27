@@ -7,9 +7,12 @@ import com.gwwd.crowd.util.ResultEntity;
 import com.gwwd.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 @Controller
 public class RoleHandler {
@@ -45,9 +48,8 @@ public class RoleHandler {
     }
 
     // 更新
-
     @ResponseBody
-    @RequestMapping("role/update.json")
+    @RequestMapping("/role/update.json")
     public ResultEntity<String> updateRole(Role role) {
 
         roleService.updateRole(role);
@@ -55,5 +57,13 @@ public class RoleHandler {
         return ResultEntity.successWithoutData();
     }
 
+    // 删除
+    @ResponseBody
+    @RequestMapping("role/remove/by/role/id/array.json")
+    public ResultEntity<String> removeByRoleIdArray(@RequestBody List<Integer> roleIdList) {
+
+        roleService.removeRole(roleIdList);
+        return ResultEntity.successWithoutData();
+    }
 }
 

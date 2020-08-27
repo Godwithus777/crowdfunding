@@ -103,7 +103,7 @@
         // ②on()函数的第一个参数是事件类型
         // ③on()函数的第二个参数是找到真正要绑定事件的元素的选择器
         // ③on()函数的第三个参数是事件的响应函数
-        $("#rolePageBody").on("click",".pencilBtn",function(){
+        $("#rolePageBody").on("click", ".pencilBtn", function () {
             // 打开模态框
             $("#editModal").modal("show");
 
@@ -120,38 +120,38 @@
         });
 
         // 7.给更新模态框中的更新按钮绑定单击响应函数
-        $("#updateRoleBtn").click(function(){
+        $("#updateRoleBtn").click(function () {
 
             // ①从文本框中获取新的角色名称
             var roleName = $("#editModal [name=roleName]").val();
 
             // ②发送Ajax请求执行更新
             $.ajax({
-                "url":"role/update.json",
-                "type":"post",
-                "data":{
-                    "id":window.roleId,
-                    "name":roleName
+                "url": "role/update.json",
+                "type": "post",
+                "data": {
+                    "id": window.roleId,
+                    "name": roleName
                 },
-                "dataType":"json",
-                "success":function(response){
+                "dataType": "json",
+                "success": function (response) {
 
                     var result = response.result;
 
-                    if(result == "SUCCESS") {
+                    if (result == "SUCCESS") {
                         layer.msg("操作成功！");
 
                         // 重新加载分页数据
                         generatePage();
                     }
 
-                    if(result == "FAILED") {
-                        layer.msg("操作失败！"+response.message);
+                    if (result == "FAILED") {
+                        layer.msg("操作失败！" + response.message);
                     }
 
                 },
-                "error":function(response){
-                    layer.msg(response.status+" "+response.statusText);
+                "error": function (response) {
+                    layer.msg(response.status + " " + response.statusText);
                 }
             });
 
@@ -159,6 +159,117 @@
             $("#editModal").modal("hide");
         });
 
+
+        // 8.点击确认模态框中的确认删除按钮执行删除
+        $("#removeRoleBtn").click(function () {
+
+            // 从全局变量范围获取roleIdArray,转换为JSON字符串
+            var requestBody = JSON.stringify(window.roleIdArray);
+
+            $.ajax({
+                "url":"role/remove/by/role/id/array.json",
+                "type": "post",
+                "data": requestBody,
+                "contentType": "application/json;charset=UTF-8",
+                "dataType": "json",
+                "success": function (response) {
+
+                    var result = response.result;
+
+                    if (result == "SUCCESS") {
+                        layer.msg("操作成功!");
+
+                        // 重新加载分页数据
+                        generatePage();
+                    }
+
+                    if (result == "FAILED") {
+                        layer.msg("操作失败!" + response.message);
+                    }
+
+                },
+                "error": function (response) {
+                    layer.msg(response.status + " " + response.statusText);
+                }
+            });
+
+            // 关闭模态框
+            $("#confirmModal").modal("hide");
+
+        });
+
+        // 9.给单条删除按钮绑定单击响应函数
+        $("#rolePageBody").on("click", ".removeBtn", function () {
+
+            // 从当前按钮出发获取角色名称
+            var roleName = $(this).parent().prev().text();
+
+            // 创建role对象存入数组
+            var roleArray = [{
+                roleId: this.id,
+                roleName: roleName
+            }];
+
+            // 调用专门的函数打开模态框
+            showConfirmModal(roleArray);
+
+        });
+
+        // 10.给总的checkbox绑定单击响应函数
+        $("#summaryBox").click(function(){
+
+            // ①获取当前多选框自身的状态
+            var currentStatus = this.checked;
+
+            // ②用当前多选框的状态设置其他多选框
+            $(".itemBox").prop("checked", currentStatus);
+
+        });
+
+        // 全选,全不选的反向操作
+        $("#rolePageBody").on("click", ".itemBox", function () {
+
+            // 获取当前已经选中的 .itemBox的数量
+            var checkBoxCount = $(".itemBox:checked").length;
+
+            // 获取全部.itemBox的数量
+            var totalBoxCount = $(".itemBox").length;
+
+            // 使用二者的比较结果设置总的CheckBox
+            $("#summaryBox").prop("checked", checkBoxCount == totalBoxCount);
+
+        });
+
+        // 12.给批量删除的按钮绑定单击响应函数
+        $("#batchRemoveBtn").click(function(){
+
+            // 创建一个数组对象用来存放后面获取到的角色对象
+            var roleArray = [];
+
+            // 遍历当前选中的多选框
+            $(".itemBox:checked").each(function(){
+
+                // 使用this引用当前遍历得到的多选框
+                var roleId = this.id;
+
+                // 通过DOM操作获取角色名称
+                var roleName = $(this).parent().next().text();
+
+                roleArray.push({
+                    "roleId":roleId,
+                    "roleName":roleName
+                });
+            });
+
+            // 检查roleArray的长度是否为0
+            if(roleArray.length == 0) {
+                layer.msg("请至少选择一个执行删除");
+                return ;
+            }
+
+            // 调用专门的函数打开模态框
+            showConfirmModal(roleArray);
+        });
 
     })
 
@@ -189,7 +300,8 @@
                                 class="glyphicon glyphicon-search"></i> 查询
                         </button>
                     </form>
-                    <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i
+                    <button id="batchRemoveBtn" type="button" class="btn btn-danger"
+                            style="float:right;margin-left:10px;"><i
                             class=" glyphicon glyphicon-remove"></i> 删除
                     </button>
                     <button id="showAddModalBtn" type="button" class="btn btn-primary" style="float:right;"><i
@@ -202,7 +314,7 @@
                             <thead>
                             <tr>
                                 <th width="30">#</th>
-                                <th width="30"><input type="checkbox"></th>
+                                <th width="30"><input id="summaryBox" type="checkbox"></th>
                                 <th>名称</th>
                                 <th width="100">操作</th>
                             </tr>
@@ -225,6 +337,7 @@
 </div>
 <%@include file="/WEB-INF/modal-role-add.jsp" %>
 <%@include file="/WEB-INF/modal-role-edit.jsp" %>
+<%@include file="/WEB-INF/modal-role-confirm.jsp" %>
 
 </body>
 </html>

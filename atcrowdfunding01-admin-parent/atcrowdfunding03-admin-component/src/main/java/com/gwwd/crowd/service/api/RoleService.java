@@ -6,6 +6,8 @@ import com.gwwd.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 public interface RoleService {
 
@@ -14,4 +16,6 @@ public interface RoleService {
     void saveRole(Role role);
 
     void updateRole(Role role);
+
+    void removeRole(List<Integer> roleIdList);
 }

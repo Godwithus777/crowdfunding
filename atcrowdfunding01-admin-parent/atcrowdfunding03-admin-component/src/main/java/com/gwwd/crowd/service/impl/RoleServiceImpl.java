@@ -5,6 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.gwwd.crowd.mapper.RoleMapper;
 import com.gwwd.crowd.service.api.RoleService;
 import com.gwwd.entity.Role;
+import com.gwwd.entity.RoleExample;
+import com.gwwd.entity.RoleExample.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,5 +42,18 @@ public class RoleServiceImpl implements RoleService {
     public void updateRole(Role role) {
 
         roleMapper.updateByPrimaryKey(role);
+    }
+
+    @Override
+    public void removeRole(List<Integer> roleIdList) {
+
+        RoleExample example = new RoleExample();
+
+        Criteria  criteria = example.createCriteria();
+
+        //delete from t_role where id in (5,8,12)
+        criteria.andIdIn(roleIdList);
+
+        roleMapper.deleteByExample(example);
     }
 }
